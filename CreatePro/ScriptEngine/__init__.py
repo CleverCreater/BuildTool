@@ -6,10 +6,10 @@ Script Engine
 class BaseMachine:
     keyword_set = {
         # Base
-        '%', '*', '+', '-', '/', '==', 'cast_int', 'cast_str', 'drop', 'dup', 'exit', 'if', 'jmp', 'over',
+        '%', '*', '+', '-', '/', '==', '=', 'cast_int', 'cast_str', 'drop', 'dup', 'exit', 'if', 'jmp', 'over',
         'print', 'println', 'read', 'stack', 'swap', 'node',
-        # Data
-        '=', 'show', 'save', 'use', 'pickle'
+        # Keys
+        'get', 'clone', 'delete'
     }
     wait_set = {'+', '-', '*', '/', '==', 'swap'}
     start_end_set = {'print', 'printIn', 'save'}
@@ -36,8 +36,8 @@ class BaseMachine:
             "read": self.read,
             "stack": self.dump_stack,
             "swap": self.swap,
-            "node": self.node,
-            "out": self.return_
+            "get": self.get,
+            "clone": self.clone
         }
 
     def mod(self): pass
@@ -79,6 +79,10 @@ class BaseMachine:
 
     def swap(self): pass
 
-    def node(self): pass
+    def assignment(self): pass
 
-    def return_(self): pass
+    # Keys
+
+    def get(self): pass
+
+    def clone(self): pass
