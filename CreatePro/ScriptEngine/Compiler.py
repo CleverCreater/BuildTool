@@ -4,8 +4,13 @@ Tree build
 import re
 
 
+class LevelError(Exception):
+    def __init__(self):
+        print('level has some problem')
+
+
 class Tree:
-    def __init__(self, path):
+    def __init__(self, code):
         super(Tree, self).__init__()
         self.Tree = None
         self.Dict = {}
@@ -14,11 +19,11 @@ class Tree:
         self.Describe = []
         doing = []
         final = []
-        with open(path) as data:
-            describe_line = data.readlines()
-        with open(path) as data:
-            self.Data = data.read()
+        describe_line = code.split('\n')
+        self.Data = code
         for i in describe_line:
+            if i == '':
+                continue
             level = re.search('[^ ]', i).span()[0] // 4
             if re.findall('~(.+?)~', i):
                 continue
@@ -35,7 +40,7 @@ class Tree:
             elif level == self.Leval:
                 doing.append([i.replace('\n', '').replace(' ', ''), level, False])
             else:
-                raise Exception
+                raise LevelError
         self.Describe = final
 
     def dict(self):
@@ -55,14 +60,10 @@ class Tree:
                     doing = {}
                     father = k
                 else:
-                    final[k] = re.findall('[ ]*' + k + ':(.+?)\n', self.Data)[0]
+                    final[k] = re.findall('[ ]*' + k + ':(.+?)', self.Data)[0]
             elif leveled > v[0]:
                 doing[k] = v
             else:
                 doing[k] = v
                 final[father] = self.tree(leveled + 1, father, doing)
         return final
-
-    def value(self):
-        self.Tree = self.tree()
-        return self.Tree

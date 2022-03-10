@@ -4,16 +4,20 @@ Run CreatePro
 import os
 import sys
 
+from ..ScriptEngine.Compiler import Tree
+
 
 class Execute:
     def __init__(self):
-        pass
+        self.build = ''
 
     @staticmethod
     def main():
         if 'CreateInfo' in os.listdir(os.path.split(sys.argv[0])[0]):
             with open('CreateInfo') as info:
-                print(info.read())
+                build = Tree(info.read())
+                build.dict()
+                return build.tree()
         else:
             print('CreateInfo is missing, stop')
             print(__file__)
@@ -22,4 +26,4 @@ class Execute:
 if __name__ == '__main__':
     raise ImportError("'Can't run")
 else:
-    Execute.main()
+    print(Execute.main())
