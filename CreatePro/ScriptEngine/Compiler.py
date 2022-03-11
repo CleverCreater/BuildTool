@@ -32,7 +32,7 @@ class Tree:
                 doing[-1] = pre + [True]
                 doing.append([i.replace('\n', '').replace(' ', ''), level, False])
                 self.Leval = level
-            elif level < self.Leval:
+            elif level < self.Leval or describe_line.index(i) == len(describe_line) - 1:  #
                 doing.append([i.replace('\n', '').replace(' ', ''), level, False])
                 final += doing
                 doing = []
