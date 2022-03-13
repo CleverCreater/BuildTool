@@ -8,7 +8,7 @@ class LevelError(Exception):
         print('level has some problem')
 
 
-class Form:
+class Tree:
     def __init__(self, code):
         code = code.split('\n')
         self.level = []
@@ -18,7 +18,7 @@ class Form:
             self.level.append(i.count(' ') // 4)
         self.code = [i.replace(' ', '') for i in code if i != '']
 
-    def make(self, base, code=None, level=None):
+    def __call__(self, base=0, code=None, level=None):
         if (code and level) is None:
             code = self.code
             level = self.level
@@ -30,7 +30,7 @@ class Form:
         for code_, level_ in zip(code, level):  # iter code, level
             if level_ == base:  # a smaller tree
                 if wait:  # build last tree
-                    out[last] = self.make(base + 1, pre_c, pre_l)
+                    out[last] = self.__call__(base + 1, pre_c, pre_l)
                     pre_c = []
                     pre_l = []
                 if code_[-1] == ':':  # A tree block is going to start
@@ -42,4 +42,6 @@ class Form:
             elif level_ > base:  # son level
                 pre_c.append(code_)
                 pre_l.append(level_)
+        if wait:  # build last tree
+            out[last] = self.__call__(base + 1, pre_c, pre_l)
         return out

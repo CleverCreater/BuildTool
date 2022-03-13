@@ -16,8 +16,8 @@ class Execute:
         if 'CreateInfo' in os.listdir(os.path.split(sys.argv[0])[0]):
             with open('CreateInfo') as info:
                 build = Tree(info.read())
-                build.dict()
-                return build.tree()
+                build.make(0)
+                return build
         else:
             print('CreateInfo is missing, stop')
             print(__file__)
