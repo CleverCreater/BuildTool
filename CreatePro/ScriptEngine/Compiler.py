@@ -71,29 +71,32 @@ class Tree:
 
 class Form:
     def __init__(self, code):
-        self.code = code.split('\n')
+        code = code.split('\n')
         self.level = []
-        for i in self.code:
+        for i in code:
             self.level.append(i.count(' ') // 4)
+        self.code = [i.replace(' ', '') for i in code]
 
     def make(self, base, code=None, level=None):
         if (code and level) is None:
             code = self.code
             level = self.level
+        wait = False  # wait or not
         pre_c = []  # making code
         pre_l = []  # making level
         out = {}  # final
+        last = ''  # the key before
         for code_, level_ in zip(code, level):  # iter code, level
-            if level_ > base:  # son level
-                pre_c.append(code_)
-                pre_l.append(level_)
-            elif level_ == base:  # a small tree
+            if level_ == base:  # a small tree
+                if wait:
+                    out[last] = self.make(base + 1, pre_c, pre_l)
                 if code_[-1] == ':':  # tree block
-                    out[code_] = self.make(base + 1, pre_c, pre_l)
-                else:  # head & body in one line
+                    last = code_.split(':')[0]
+                    wait = True
+                elif code_[-1] != ':':
                     split = code_.split(':')
                     out[split[0]] = split[1]
+            elif level_ > base:  # son level
+                pre_c.append(code_)
+                pre_l.append(level_)
         return out
-
-    def split(self):
-        pass
