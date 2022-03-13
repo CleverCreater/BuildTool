@@ -67,3 +67,33 @@ class Tree:
                 doing[k] = v
                 final[father] = self.tree(leveled + 1, father, doing)
         return final
+
+
+class Form:
+    def __init__(self, code):
+        self.code = code.split('\n')
+        self.level = []
+        for i in self.code:
+            self.level.append(i.count(' ') // 4)
+
+    def make(self, base, code=None, level=None):
+        if (code and level) is None:
+            code = self.code
+            level = self.level
+        pre_c = []  # making code
+        pre_l = []  # making level
+        out = {}  # final
+        for code_, level_ in zip(code, level):  # iter code, level
+            if level_ > base:  # son level
+                pre_c.append(code_)
+                pre_l.append(level_)
+            elif level_ == base:  # a small tree
+                if code_[-1] == ':':  # tree block
+                    out[code_] = self.make(base + 1, pre_c, pre_l)
+                else:  # head & body in one line
+                    split = code_.split(':')
+                    out[split[0]] = split[1]
+        return out
+
+    def split(self):
+        pass
