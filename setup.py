@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='CreatePro',
-    version='1.0.3',
+    version='1.0.4',
     author='CleverCreator',
     author_email='clevercreator@icloud.com',
     packages=find_packages(),
